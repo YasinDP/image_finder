@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_finder/models.dart';
 
 class ImagesImplementation {
+  static const String apiKey = "43496913-a8e7b1e444407ab2e6ec24550";
   static Future<List<ImageItem>> fetchPaginatedImages(
     String query, {
     required int offset,
@@ -13,8 +14,10 @@ class ImagesImplementation {
     int page = (offset / pageSize).ceil() + 1;
     try {
       String url =
-          "https://pixabay.com/api/?key=43496913-a8e7b1e444407ab2e6ec24550&q=${Uri.encodeQueryComponent(query)}&image_type=photo&page=$page&per_page=$pageSize";
-      final response = await http.get(Uri.parse(url));
+          "https://pixabay.com/api/?key=$apiKey&q=${Uri.encodeQueryComponent(query)}&image_type=photo&page=$page&per_page=$pageSize";
+      final response = await http.get(
+        Uri.parse(url),
+      );
       if (response.statusCode == 200) {
         // Decode the JSON response
         final jsonResponse = json.decode(response.body);
